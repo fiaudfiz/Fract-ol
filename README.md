@@ -1,10 +1,10 @@
-🌀 Fract-ol - Infinite Fractal Explorer
-📖 Présentation
+# 🌀 Fract-ol - Infinite Fractal Explorer
+## 📖 Présentation
 
 Fract-ol est un moteur de rendu graphique en temps réel développé en C. Ce projet explore le monde fascinant des ensembles récursifs et de la dynamique complexe à travers la manipulation de pixels avec la MiniLibX.
 
 L'objectif est de générer des fractales mathématiquement précises avec une navigation fluide (zoom, déplacement) et une gestion dynamique des couleurs.
-🎨 Fractales disponibles
+##🎨 Fractales disponibles
 
 Le projet supporte plusieurs types de sets, des plus classiques aux plus exotiques :
 
@@ -18,10 +18,10 @@ Le projet supporte plusieurs types de sets, des plus classiques aux plus exotiqu
 
     Tricorn : Également connue sous le nom de Mandelbar, utilisant le conjugué de z.
 
-⚙️ Installation & Dépendances
+## ⚙️ Installation & Dépendances
 
 Ce projet nécessite deux bibliothèques externes situées dans le dossier libs/.
-1. Arborescence requise
+### 1. Arborescence requise
 Plaintext
 .
 ├── libs
@@ -31,7 +31,7 @@ Plaintext
 ├── includes        # Headers
 └── Makefile
 
-2. Configuration
+### 2. Configuration
 
 Pour cloner le projet avec ses dépendances (si tu utilises des submodules) ou les ajouter manuellement :
 Bash
@@ -42,7 +42,7 @@ git clone git@github.com:fiaudfiz/libft.git libs/libft
 # Ajouter la minilibx (version Linux ou MacOS selon ton poste)
 # git clone [URL_MINILIBX] libs/minilibx
 
-🚀 Utilisation
+## 🚀 Utilisation
 
     Compilation :
     Bash
@@ -58,7 +58,7 @@ Bash
     ./fractol celtic
     ./fractol tricorn
 
-⌨️ Commandes & Contrôles
+### ⌨️ Commandes & Contrôles
 
     Souris : Molette pour un Zoom/Unzoom précis sur le curseur.
 
@@ -72,7 +72,7 @@ Bash
 
         ESC : Quitter proprement le programme.
 
-🛠️ Défis Techniques
+### 🛠️ Défis Techniques
 
     Optimisation du rendu : Gestion des itérations pour garder un framerate fluide malgré la complexité mathématique.
 
