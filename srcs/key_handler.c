@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:54 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/03 11:09:32 by miouali          ###   ########.fr       */
+/*   Updated: 2026/02/15 15:00:55 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	close_handler(t_fractol *f)
 {
 	mlx_destroy_image(f ->mlx, f->img);
-	mlx_destroy_window(f-> mlx, f->win);\
+	mlx_destroy_window(f-> mlx, f->win);
 	mlx_destroy_display(f-> mlx);
 	free (f-> mlx);
 	exit(0);

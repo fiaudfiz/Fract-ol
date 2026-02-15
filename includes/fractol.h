@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/03 11:41:14 by miouali          ###   ########.fr       */
+/*   Updated: 2026/02/15 14:27:30 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define FRACTOL_H
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 1440
+#  define WIN_WIDTH 800
 # endif
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 1440
+#  define WIN_HEIGHT 800
 # endif
 
 # ifndef MAX_ITER
@@ -94,7 +94,6 @@ void	tricorn_iteration(t_fractol *f);
 void	tricorn(t_fractol *f);
 void	celtic(t_fractol *f);
 void	celtic_iteration(t_fractol *f);
-double	ft_atof(char *s);
 void	parse_args(int argc, char **argv, t_fractol *f);
 
 #endif

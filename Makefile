@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/02/11 11:39:07 by miouali          ###   ########.fr        #
+#    Updated: 2026/02/15 14:26:23 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ LIBFT_LIB = $(LIBFT_DIR)libft.a
 SRCS_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
 				fractal_0.c init.c render_fractal.c key_handler.c \
 				mouse_handler.c fractal_1.c fractal_2.c fractal_3.c \
-				ft_atof.c parser.c
+				parser.c
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FRACTOL))
 
