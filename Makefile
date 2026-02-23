@@ -25,6 +25,7 @@ ERR_LOG = .errors.log
 CC = cc
 CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I includes -I libs/libft/includes
 LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
+DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow
 
 #Dossiers
 SRCS_DIR = srcs/
@@ -56,6 +57,10 @@ header:
 
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
+
+debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS) end_timer
+	@$(CC) $(OBJS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
+	@echo "$(GREEN) Fract-ol debug ready !$(DEF_COLOR)"
 
 $(MLX_LIB):
 	@make -C $(MLX_DIR)
@@ -125,4 +130,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re debug
