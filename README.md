@@ -1,22 +1,26 @@
-# 🌀 Fract-ol - Infinite Fractal Explorer
-## 📖 Présentation
+#  Fract-ol - Infinite Fractal Explorer - @42
 
-Fract-ol est un moteur de rendu graphique en temps réel développé en C. Ce projet explore le monde fascinant des ensembles récursifs et de la dynamique complexe à travers la manipulation de pixels avec la MiniLibX.
+*This project has been created as part of the 42 curriculum by miouali.*
 
-L'objectif est de générer des fractales mathématiquement précises avec une navigation fluide (zoom, déplacement) et une gestion dynamique des couleurs.
-##🎨 Fractales disponibles
+##  Description
 
-Le projet supporte plusieurs types de sets, des plus classiques aux plus exotiques :
+Fract-ol is a real-time fractal renderer built in C. This project delves into the fascinating world of converging sequences and complex dynamics, leveraging the MiniLibX for direct pixel manipulation.
 
-    Mandelbrot : L'ensemble classique basé sur zn+1​=zn2​+c.
+The goal is to generate mathematically accurate fractals based on the study of complex sequence limits. The engine features smooth navigation (zooming, panning) and dynamic color mapping to visualize the rate of divergence.
 
-    Julia : Des variations infinies selon la position de la souris ou des paramètres fixes.
+## Available Fractals
 
-    Burning Ship : Une fractale particulière générant une forme de navire en feu via zn+1​=(∣Re(zn​)∣+i∣Im(zn​)∣)2+c.
+The project supports several types of sets, from the most classic to the more exotic:
 
-    Celtic : Une variante élégante de Mandelbrot avec des structures en forme de nœuds.
+    Mandelbrot: The classic set based on the convergence of the sequence zn+1​=zn2​+c.
 
-    Tricorn : Également connue sous le nom de Mandelbar, utilisant le conjugué de z.
+    Julia: Infinite variations depending on mouse position or fixed parameters, studying the limit of the sequence based on z0​.
+
+    Burning Ship: A unique fractal generating a ship-like shape via the sequence zn+1​=(∣Re(zn​)∣+i∣Im(zn​)∣)2+c.
+
+    Celtic: An elegant Mandelbrot variant featuring knot-like structures.
+
+    Tricorn: Also known as the Mandelbar, it uses the complex conjugate of z to determine its divergence pattern.
 
 ## ⚙️ Installation & Dépendances
 
