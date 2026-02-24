@@ -22,45 +22,45 @@ The project supports several types of sets, from the most classic to the more ex
 
     Tricorn: Also known as the Mandelbar, it uses the complex conjugate of z to determine its divergence pattern.
 
-## ⚙️ Installation & Dépendances
+## Instructions
 
-Ce projet nécessite deux bibliothèques externes situées dans le dossier libs/.
-### 1. Arborescence requise
-Plaintext
+This project relies on two internal libraries located in the libs/ folder.
+
+### 1. Project Structure
+
+```Plaintext
 .
 ├── libs
-│   ├── libft       # Ma bibliothèque C personnalisée
-│   └── minilibx    # Bibliothèque graphique de 42
-├── srcs            # Code source du projet
-├── includes        # Headers
+│   ├── libft       # Custom C library (submodule)
+│   └── minilibx    # 42 Graphical library (included)
+├── srcs            # Project source code
+├── includes        # Header files
 └── Makefile
+```
 
-### 2. Configuration
+### 2. Setup
 
-Pour cloner le projet avec ses dépendances (si tu utilises des submodules) ou les ajouter manuellement :
-Bash
+To clone the project along with its dependencies, use the --recursive flag to automatically fetch the libft submodule:
 
-mkdir libs
-# Ajouter ma libft custom
-git clone git@github.com:fiaudfiz/libft.git libs/libft
-# Ajouter la minilibx (version Linux ou MacOS selon ton poste)
-# git clone [URL_MINILIBX] libs/minilibx
+```Bash
+git clone --recursive git@github.com:fiaudfiz/fract-ol
+```
+##  Usage
 
-## 🚀 Utilisation
-
-    Compilation :
-    Bash
-
+###    Compilation :
+```bash
 make
+```
+###    Launch
+Run the program with the name of the desired fractal:
 
-Lancement : Exécute le programme avec le nom de la fractale souhaitée :
-Bash
-
+```Bash
     ./fractol mandelbrot
     ./fractol julia
     ./fractol burningship
     ./fractol celtic
     ./fractol tricorn
+```
 
 ### ⌨️ Commandes & Contrôles
 
