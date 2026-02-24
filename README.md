@@ -62,26 +62,23 @@ Run the program with the name of the desired fractal:
     ./fractol tricorn
 ```
 
-### ⌨️ Commandes & Contrôles
+### Controls & Navigation
 
-    Souris : Molette pour un Zoom/Unzoom précis sur le curseur.
+    Mouse: Use the Scroll Wheel for precise Zooming/Unzooming centered on the cursor.
 
-    Clavier :
+    Keyboard:
 
-        Flèches / WASD : Se déplacer dans le plan complexe.
+    Arrows / WASD: Move across the complex plane.
 
-        C : Changer la palette de couleurs (Color Shifting).
+    C: Cycle through different color palettes (Color Shifting).
 
-        R : Reset la vue par défaut.
+    R: Reset to the default view.
 
-        ESC : Quitter proprement le programme.
+    ESC: Exit the program cleanly.
 
-### 🛠️ Défis Techniques
+##    Resources
 
-    Optimisation du rendu : Gestion des itérations pour garder un framerate fluide malgré la complexité mathématique.
-
-    Interactivité : Mapping des coordonnées de l'écran (pixels) vers le plan complexe (nombres réels et imaginaires).
-
-    Hooks MiniLibX : Gestion propre des événements clavier et souris pour éviter les fuites de mémoire et les plantages.
-
-    Note : Ce projet respecte strictement la Norme 42 et a été testé pour garantir l'absence totale de fuites mémoire (Valgrind approved).
+* **The Mandelbrot Set** * : [Mandelbrot Set](https://en.wikipedia.org/wiki/Mandelbrot_set)
+* **Julia Set** *: [Julia Set](https://en.wikipedia.org/wiki/Julia_set)
+* **Mini Lib X** * : [Mini Lib X doc](https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
+* **Fractal** * : [Fractal](https://en.wikipedia.org/wiki/Fractal)
