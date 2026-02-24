@@ -78,7 +78,7 @@ Run the program with the name of the desired fractal:
 
 ##    Resources
 
-* **The Mandelbrot Set** * : [Mandelbrot Set](https://en.wikipedia.org/wiki/Mandelbrot_set)
-* **Julia Set** *: [Julia Set](https://en.wikipedia.org/wiki/Julia_set)
-* **Mini Lib X** * : [Mini Lib X doc](https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
-* **Fractal** * : [Fractal](https://en.wikipedia.org/wiki/Fractal)
+* **The Mandelbrot Set**  : [Mandelbrot Set](https://en.wikipedia.org/wiki/Mandelbrot_set)
+* **Julia Set** : [Julia Set](https://en.wikipedia.org/wiki/Julia_set)
+* **Mini Lib X**  : [Mini Lib X doc](https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html)
+* **Fractal**  : [Fractal](https://en.wikipedia.org/wiki/Fractal)
