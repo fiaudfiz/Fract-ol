@@ -70,9 +70,9 @@ Run the program with the name of the desired fractal:
 
     Arrows / WASD: Move across the complex plane.
 
-    C: Cycle through different color palettes (Color Shifting).
+    C: Cycle through different color palettes (Color Shifting). (Update coming soon)
 
-    R: Reset to the default view.
+    R: Reset to the default view. (Update coming Soon)
 
     ESC: Exit the program cleanly.
 
