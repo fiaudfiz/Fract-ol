@@ -37,6 +37,7 @@
 # include <stdarg.h>
 # include <math.h>
 # include "../libs/mlx-linux/mlx.h"
+# include <immintrin.h>
 
 typedef struct s_fractol
 {
@@ -73,6 +74,8 @@ typedef struct s_fractol
 	int		endian;
 	int		period;
 	int		palette[MAX_ITER];
+	int		dx;
+	int		dy;
 
 }			t_fractol;
 
@@ -95,5 +98,7 @@ void	tricorn(t_fractol *f);
 void	celtic(t_fractol *f);
 void	celtic_iteration(t_fractol *f);
 void	parse_args(int argc, char **argv, t_fractol *f);
+void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im, __m256d *v_iter);
+void	render_fractal_simd(t_fractol *f);
 
 #endif

@@ -27,6 +27,8 @@ int	init_fractol(t_fractol *f)
 	f->min_imaginary_window = -2.0;
 	f->max_imaginary_window = 2.0;
 	f->max_iteration = MAX_ITER;
+	f->dx = (f->max_real_window - f->min_real_window) / WIN_WIDTH;
+	f->dy = (f->max_imaginary_window - f->min_imaginary_window) / WIN_HEIGHT;
 	f->mlx = mlx_init();
 	if (!f->mlx)
 		return (0);

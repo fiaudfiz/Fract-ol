@@ -53,7 +53,7 @@ int	key_handler(int key, t_fractol *f)
 		close_handler(f);
 	else if (key >= 65361 && key <= 65364)
 		move_fractal(key, f);
-	render_fractal(f);
+	render_fractal_simd(f);
 	return (0);
 }
 

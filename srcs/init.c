@@ -15,6 +15,7 @@
 void	init(t_fractol *f)
 {
 	f -> pixel_y = 0;
+	f->pixel_x = 0;
 	f -> real_factor = (f->max_real_window - f->min_real_window) / WIN_WIDTH;
 	f -> imaginary_factor = (f->min_imaginary_window - f->max_imaginary_window)
 		/ WIN_HEIGHT;

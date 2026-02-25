@@ -45,7 +45,7 @@ int	mouse_handler(int button, int x, int y, t_fractol *f)
 	else if (button == 5)
 		zoom_factor = 1.1;
 	apply_zoom(f, mouse_re, mouse_im, zoom_factor);
-	render_fractal(f);
+	render_fractal_simd(f);
 	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 	return (0);
 }

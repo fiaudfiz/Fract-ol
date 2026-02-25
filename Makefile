@@ -42,9 +42,17 @@ SRCS_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
 				mouse_handler.c fractal_1.c fractal_2.c fractal_3.c \
 				parser.c
 
+SRCS_BONUS = main_bonus.c prog_usage.c calculate_iteration.c color.c \
+				fractal_0.c init.c render_fractal.c key_handler.c \
+				mouse_handler.c fractal_1.c fractal_2.c fractal_3.c \
+				parser.c
+
+
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FRACTOL))
+ALL_SRCS_BONUS = $(addprefix $(SRCS_DIR), $(SRCS_BONUS))
 
 OBJS = $(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(ALL_SRCS))
+OBJS_BONUS =  $(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(ALL_SRCS_BONUS))
 
 HEADER = $(HEADER_DIR)fractol.h
 
@@ -57,6 +65,10 @@ header:
 
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
+
+bonus:  $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS_BONUS) end_timer
+	@$(CC) $(OBJS_BONUS) $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN) SIMD is ready !$(DEF_COLOR)"
 
 debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS) end_timer
 	@$(CC) $(OBJS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
