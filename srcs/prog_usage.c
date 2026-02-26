@@ -26,6 +26,9 @@ void	prog_usage(void)
 	ft_printf("\n💡 Tips:\n");
 	ft_printf("  • Use mouse wheel to zoom in/out\n");
 	ft_printf("  • Uses arrows to navigate\n");
+	ft_printf("  • Use drag mouse to navigate\n");
+	ft_printf("  • Use C to change colors\n");
+	ft_printf("  • Uses R to reset view\n");
 	ft_printf("  • Press ESC to exit\n");
 	exit(1);
 }
