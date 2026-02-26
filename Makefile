@@ -45,7 +45,7 @@ SRCS_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
 SRCS_BONUS = main_bonus.c prog_usage.c calculate_iteration.c color.c \
 				fractal_0.c init.c render_fractal.c key_handler.c \
 				mouse_handler.c fractal_1.c fractal_2.c fractal_3.c \
-				parser.c
+				parser.c compute_simd_fractal.c
 
 
 ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FRACTOL))

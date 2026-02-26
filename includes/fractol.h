@@ -100,5 +100,12 @@ void	celtic_iteration(t_fractol *f);
 void	parse_args(int argc, char **argv, t_fractol *f);
 void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im, __m256d *v_iter);
 void	render_fractal_simd(t_fractol *f);
-
+void    compute_mandelbrot(__m256d *z_re, __m256d *z_im,
+    __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
+void    compute_tricorn(__m256d *z_re, __m256d *z_im,
+    __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
+void    compute_celtic(__m256d *z_re, __m256d *z_im,
+        __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
+void    compute_burning_ship(__m256d *z_re, __m256d *z_im,
+        __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
 #endif

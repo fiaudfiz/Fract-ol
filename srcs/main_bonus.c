@@ -32,11 +32,11 @@ int	init_fractol(t_fractol *f)
 	return (1);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_fractol	f;
 
-	//parse_args(argc, argv, &f);
+	parse_args(ac, av, &f);
 	if (!init_fractol(&f))
 		return (1);
 	init_palette(&f);
