@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:54 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/15 15:00:55 by miouali          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:32:30 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	key_handler(int key, t_fractol *f)
 	}
 	else if (key == 99)
 	{
-		f->color_offset+=50;
+		f->color_offset += 50;
 		init_palette(f);
 	}
 	render_fractal_simd(f);

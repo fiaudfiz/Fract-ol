@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/15 14:27:30 by miouali          ###   ########.fr       */
+/*   Updated: 2026/02/26 16:29:10 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,15 @@ typedef struct s_fractol
 
 }			t_fractol;
 
+typedef struct s_simd
+{
+	__m256d		v_z_re;
+	__m256d		v_z_im;
+	__m256d		v_c_re;
+	__m256d		v_c_im;
+	__m256d		v_iter;
+}		t_simd;
+
 void	prog_usage(void);
 void	init(t_fractol *f);
 int		key_handler(int key, t_fractol *f);
@@ -95,14 +104,15 @@ int		mouse_handler(int button, int x, int y, t_fractol *f);
 int		handle_expose(t_fractol *f);
 void	init_palette(t_fractol *f);
 void	parse_args(int argc, char **argv, t_fractol *f);
-void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im, __m256d *v_iter);
+void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im,
+			__m256d *v_iter);
 void	render_fractal_simd(t_fractol *f);
-void    compute_mandelbrot(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
-void    compute_celtic(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
-void    compute_tricorn(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
-void    compute_burning_ship(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
-int	motion_handler(int x, int y, t_fractol *f);
-int	mouse_release(int button, int x, int y, t_fractol *f);
+void	compute_mandelbrot(t_simd *s);
+void	compute_celtic(t_simd *s);
+void	compute_tricorn(t_simd *s);
+void	compute_burning_ship(t_simd *s);
+int		motion_handler(int x, int y, t_fractol *f);
+int		mouse_release(int button, int x, int y, t_fractol *f);
 void	put_color(t_fractol *f, int *pixel_ptr);
 
 #endif
