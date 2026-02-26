@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 10:38:48 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/15 14:56:23 by miouali          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "fractol.h"
 
@@ -27,8 +16,12 @@ int	init_fractol(t_fractol *f)
 	f->min_imaginary_window = -2.0;
 	f->max_imaginary_window = 2.0;
 	f->max_iteration = MAX_ITER;
-	f->dx = (f->max_real_window - f->min_real_window) / WIN_WIDTH;
-	f->dy = (f->max_imaginary_window - f->min_imaginary_window) / WIN_HEIGHT;
+	f->init_max_re = f->max_real_window;
+	f->init_min_re = f->min_real_window;
+	f->init_max_im = f->max_imaginary_window;
+	f->init_min_im = f->min_imaginary_window;
+	f->color_offset = 0;
+	f->mouse_pressed = 0;
 	f->mlx = mlx_init();
 	if (!f->mlx)
 		return (0);
@@ -43,20 +36,22 @@ int	init_fractol(t_fractol *f)
 	return (1);
 }
 
-int	main(int argc, char **argv)
+int	main(int ac, char **av)
 {
 	t_fractol	f;
 
-	parse_args(argc, argv, &f);
+	parse_args(ac, av, &f);
 	if (!init_fractol(&f))
 		return (1);
 	init_palette(&f);
-	render_fractal(&f);
+	render_fractal_simd(&f);
 	mlx_put_image_to_window(f.mlx, f.win, f.img, 0, 0);
-	mlx_key_hook(f.win, key_handler, &f);
+	mlx_hook(f.win, 2, 1L << 0, key_handler, &f);
 	mlx_hook(f.win, 17, 0, close_handler, &f);
 	mlx_hook(f.win, 12, 0, handle_expose, &f);
-	mlx_mouse_hook(f.win, mouse_handler, &f);
+	mlx_hook(f.win, 4, 1L << 2, mouse_handler, &f);
+	mlx_hook(f.win, 5, 1L << 3, mouse_release, &f);
+	mlx_hook(f.win, 6, 1L << 6, motion_handler, &f);
 	mlx_loop(f.mlx);
 	return (0);
 }

@@ -64,6 +64,14 @@ typedef struct s_fractol
 	double	offset;
 	double	old_real;
 	double	old_imaginary;
+	double	init_min_re;
+	double	init_max_re;
+	double	init_min_im;
+	double	init_max_im;
+	int		mouse_pressed;
+	int		last_x;
+	int		last_y;
+	int		color_offset;
 	int		max_iteration;
 	int		type_of_fractal;
 	int		iteration;
@@ -80,32 +88,21 @@ typedef struct s_fractol
 }			t_fractol;
 
 void	prog_usage(void);
-void	render_fractal(t_fractol *f);
 void	init(t_fractol *f);
-int		fractal(t_fractol *f, int **pixel_ptr);
-void	smooth_color(t_fractol *f, int **pixel_ptr);
-int		get_color(double iteration);
-void	calculate_iteration(t_fractol *f);
 int		key_handler(int key, t_fractol *f);
 int		close_handler(t_fractol *f);
 int		mouse_handler(int button, int x, int y, t_fractol *f);
 int		handle_expose(t_fractol *f);
 void	init_palette(t_fractol *f);
-void	burning_ship_iteration(t_fractol *f);
-void	burning_ship(t_fractol *f);
-void	tricorn_iteration(t_fractol *f);
-void	tricorn(t_fractol *f);
-void	celtic(t_fractol *f);
-void	celtic_iteration(t_fractol *f);
 void	parse_args(int argc, char **argv, t_fractol *f);
 void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im, __m256d *v_iter);
 void	render_fractal_simd(t_fractol *f);
-void    compute_mandelbrot(__m256d *z_re, __m256d *z_im,
-    __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
-void    compute_tricorn(__m256d *z_re, __m256d *z_im,
-    __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
-void    compute_celtic(__m256d *z_re, __m256d *z_im,
-        __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
-void    compute_burning_ship(__m256d *z_re, __m256d *z_im,
-        __m256d z_re2, __m256d z_im2, __m256d c_re, __m256d c_im);
+void    compute_mandelbrot(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
+void    compute_celtic(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
+void    compute_tricorn(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
+void    compute_burning_ship(__m256d *z_re, __m256d *z_im, __m256d c_re, __m256d c_im);
+int	motion_handler(int x, int y, t_fractol *f);
+int	mouse_release(int button, int x, int y, t_fractol *f);
+void	put_color(t_fractol *f, int *pixel_ptr);
+
 #endif

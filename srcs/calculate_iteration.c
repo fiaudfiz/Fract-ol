@@ -12,42 +12,63 @@
 
 #include "fractol.h"
 
-void	calculate_iteration_simple(t_fractol *f)
+void	init_z_vectors(t_fractol *f, __m256d *v_z_re, __m256d *v_z_im, __m256d *v_c_re, __m256d *v_c_im)
 {
-	f->period = 20;
-	f->old_imaginary = 0;
-	f->old_real = 0;
-	while (f ->z_real * f ->z_real + f ->z_imaginary
-		* f ->z_imaginary < 4 && f->iteration < f->max_iteration)
+	if (f->type_of_fractal == 2)
 	{
-		f->temp_real = ((f ->z_real * f ->z_real)
-				- (f ->z_imaginary * f ->z_imaginary)) + f ->c_real;
-		f -> z_imaginary = 2 * f ->z_imaginary * f ->z_real + f ->c_imaginary;
-		f ->z_real = f->temp_real;
-		f->iteration++;
-		if (f-> z_real == f->old_real && f->z_imaginary == f->old_imaginary)
-		{
-			f->iteration = f-> max_iteration;
-			break ;
-		}
-		f->period++;
-		if (f->period > 20)
-		{
-			f->period = 0;
-			f->old_real = f-> z_real;
-			f->old_imaginary = f-> z_imaginary;
-		}
+		*v_z_re = *v_c_re;
+		*v_z_im = *v_c_im;
+		*v_c_re = _mm256_set1_pd(f->julia_real_pixel);
+		*v_c_im = _mm256_set1_pd(f->julia_imaginary_pixel);
+	}
+	else
+	{
+		*v_z_re = _mm256_setzero_pd();
+		*v_z_im = _mm256_setzero_pd();
+		
 	}
 }
 
-void	calculate_iteration(t_fractol *f)
+void	dispatch_fractal(t_fractol *f, __m256d *v_z_re, __m256d *v_z_im, __m256d v_c_re, __m256d v_c_im)
 {
-	if (f->type_of_fractal == 3)
-		burning_ship_iteration(f);
-	else if (f-> type_of_fractal == 4)
-		tricorn_iteration(f);
-	else if (f-> type_of_fractal == 5)
-		celtic_iteration(f);
-	else
-		calculate_iteration_simple(f);
+	if (f->type_of_fractal == 1 || f->type_of_fractal == 2)
+		compute_mandelbrot(v_z_re, v_z_im, v_c_re, v_c_im);
+	else if (f->type_of_fractal == 3)
+		compute_burning_ship(v_z_re, v_z_im, v_c_re, v_c_im);
+	else if (f->type_of_fractal == 4)
+		compute_tricorn(v_z_re, v_z_im, v_c_re, v_c_im);
+	else if (f->type_of_fractal == 5)
+		compute_celtic(v_z_re, v_z_im, v_c_re, v_c_im);
+}
+
+void	iterate_simd(t_fractol *f, __m256d *v_z_re, __m256d *v_z_im, __m256d v_c_re, __m256d v_c_im , __m256d *v_iter)
+{
+	int	n;
+	__m256d v_z_re2;
+	__m256d	v_z_im2;
+	__m256d	v_mask;
+
+	n = 0;
+	while (n < f->max_iteration)
+	{
+		v_z_re2 = _mm256_mul_pd(*v_z_re, *v_z_re);
+		v_z_im2 = _mm256_mul_pd(*v_z_im, *v_z_im);
+		v_mask = _mm256_cmp_pd(_mm256_add_pd(v_z_re2, v_z_im2), _mm256_set1_pd(4.0), _CMP_LT_OQ);
+		if (_mm256_movemask_pd(v_mask) == 0)
+			break;
+		*v_iter = _mm256_add_pd(*v_iter, _mm256_and_pd(v_mask, _mm256_set1_pd(1.0)));
+		dispatch_fractal(f, v_z_re, v_z_im, v_c_re, v_c_im);
+		n++;
+	}
+}
+
+void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im, __m256d *v_iter)
+{
+	__m256d v_z_re;
+    __m256d v_z_im;
+
+	v_z_im = _mm256_setzero_pd();
+	v_z_re = _mm256_setzero_pd();
+	init_z_vectors(f, &v_z_re, &v_z_im, &v_c_re, &v_c_im);
+	iterate_simd(f, &v_z_re, &v_z_im, v_c_re, v_c_im, v_iter);
 }

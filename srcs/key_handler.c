@@ -53,6 +53,18 @@ int	key_handler(int key, t_fractol *f)
 		close_handler(f);
 	else if (key >= 65361 && key <= 65364)
 		move_fractal(key, f);
+	else if (key == 114)
+	{
+		f->min_real_window = f->init_min_re;
+		f->max_real_window = f->init_max_re;
+		f->min_imaginary_window = f->init_min_im;
+		f->max_imaginary_window = f-> init_max_im;
+	}
+	else if (key == 99)
+	{
+		f->color_offset+=50;
+		init_palette(f);
+	}
 	render_fractal_simd(f);
 	return (0);
 }
