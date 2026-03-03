@@ -96,24 +96,35 @@ typedef struct s_simd
 	__m256d		v_iter;
 }		t_simd;
 
+//parsing
+void	parse_args(int argc, char **argv, t_fractol *f);
 void	prog_usage(void);
+
+//init
 void	init(t_fractol *f);
+int		init_fractol(t_fractol *f);
+
+//handler key&mouse
 int		key_handler(int key, t_fractol *f);
 int		close_handler(t_fractol *f);
 int		mouse_handler(int button, int x, int y, t_fractol *f);
 int		handle_expose(t_fractol *f);
+int		motion_handler(int x, int y, t_fractol *f);
+int		mouse_release(int button, int x, int y, t_fractol *f);
+
+//color
 void	init_palette(t_fractol *f);
-void	parse_args(int argc, char **argv, t_fractol *f);
+void	put_color(t_fractol *f, int *pixel_ptr);
+
+//calculate fractal
 void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im,
 			__m256d *v_iter);
 void	render_fractal_simd(t_fractol *f);
+
+//Fractals
 void	compute_mandelbrot(t_simd *s);
 void	compute_celtic(t_simd *s);
 void	compute_tricorn(t_simd *s);
 void	compute_burning_ship(t_simd *s);
-int		motion_handler(int x, int y, t_fractol *f);
-int		mouse_release(int button, int x, int y, t_fractol *f);
-void	put_color(t_fractol *f, int *pixel_ptr);
-int		init_fractol(t_fractol *f);
 
 #endif
