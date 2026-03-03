@@ -12,15 +12,25 @@ The goal is to generate mathematically accurate fractals based on the study of c
 
 The project supports several types of sets, from the most classic to the more exotic:
 
-    Mandelbrot: The classic set based on the convergence of the sequence zn+1​=zn2​+c.
+    Mandelbrot: The classic set based on the convergence of the sequence : 
+        z₀ = 0
+        zₙ₊₁ = zₙ² + c
+    
+    Julia: Infinite variations depending on mouse position or fixed parameters:
+        z₀ = pixel
+        zₙ₊₁ = zₙ² + c,  c = fixed constant
 
-    Julia: Infinite variations depending on mouse position or fixed parameters, studying the limit of the sequence based on z0​.
+    Burning Ship: A unique fractal generating a ship-like shape via the sequence:
+        z₀ = 0
+        zₙ₊₁ = (|Re(zₙ)| + i·|Im(zₙ)|)² + c
 
-    Burning Ship: A unique fractal generating a ship-like shape via the sequence zn+1​=(∣Re(zn​)∣+i∣Im(zn​)∣)2+c.
+    Celtic: An elegant Mandelbrot variant featuring knot-like structures :
+        z₀ = 0
+        zₙ₊₁ = |Re(zₙ²)| + i·Im(zₙ²) + c
 
-    Celtic: An elegant Mandelbrot variant featuring knot-like structures.
-
-    Tricorn: Also known as the Mandelbar, it uses the complex conjugate of z to determine its divergence pattern.
+    Tricorn: Also known as the Mandelbar, uses the complex conjugate z̄:
+        z₀ = 0
+        zₙ₊₁ = z̄ₙ² + c
 
 ## Instructions
 
