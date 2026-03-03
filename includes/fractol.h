@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/26 16:29:10 by miouali          ###   ########.fr       */
+/*   Updated: 2026/03/03 10:57:12 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ void	compute_burning_ship(t_simd *s);
 int		motion_handler(int x, int y, t_fractol *f);
 int		mouse_release(int button, int x, int y, t_fractol *f);
 void	put_color(t_fractol *f, int *pixel_ptr);
+int		init_fractol(t_fractol *f);
 
 #endif

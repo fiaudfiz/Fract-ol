@@ -25,7 +25,7 @@ ERR_LOG = .errors.log
 CC = cc
 CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I includes -I libs/libft/includes
 LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
-DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow
+DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
 
 #Dossiers
 SRCS_DIR = srcs/
