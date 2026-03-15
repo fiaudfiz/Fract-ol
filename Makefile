@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
+#    By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/02/15 14:26:23 by miouali          ###   ########.fr        #
+#    Updated: 2026/03/15 13:31:10 by fiaudfiz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RESET   = \033[0m
 ERR_LOG = .errors.log
 
 CC = cc
-CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I includes -I libs/libft/includes
+CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I includes -I libs/libft/includes -std=c11
 LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
 DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
 
@@ -55,14 +55,14 @@ RM = rm -rf
 all: header start_timer $(NAME) end_timer
 
 header:
-	@echo "$(YELLOW) Démarrage de la compilation de Fract-ol...$(RESET)"
+	@echo -e "$(YELLOW) Démarrage de la compilation de Fract-ol...$(RESET)"
 
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
 
 debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS) end_timer
 	@$(CC) $(OBJS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
-	@echo "$(GREEN) Fract-ol debug ready !$(DEF_COLOR)"
+	@echo -e "$(GREEN) Fract-ol debug ready !$(DEF_COLOR)"
 
 $(MLX_LIB):
 	@make -C $(MLX_DIR)
@@ -71,23 +71,23 @@ $(LIBFT_LIB):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(MLX_LIB) $(LIBFT_LIB)
-	@echo "\n\n$(CYAN) ███████████                               █████                        ████"
+	@echo -e "\n\n$(CYAN) ███████████                               █████                        ████"
 	@sleep 0.1
-	@echo "░░███░░░░░░█                              ░░███                        ░░███"
+	@echo -e "░░███░░░░░░█                              ░░███                        ░░███"
 	@sleep 0.1
-	@echo " ░███   █ ░  ████████   ██████    ██████  ███████               ██████  ░███"
+	@echo -e " ░███   █ ░  ████████   ██████    ██████  ███████               ██████  ░███"
 	@sleep 0.1
-	@echo " ░███████   ░░███░░███ ░░░░░███  ███░░███░░░███░    ██████████ ███░░███ ░███"
+	@echo -e " ░███████   ░░███░░███ ░░░░░███  ███░░███░░░███░    ██████████ ███░░███ ░███"
 	@sleep 0.1
-	@echo " ░███░░░█    ░███ ░░░   ███████ ░███ ░░░   ░███    ░░░░░░░░░░ ░███ ░███ ░███"
+	@echo -e " ░███░░░█    ░███ ░░░   ███████ ░███ ░░░   ░███    ░░░░░░░░░░ ░███ ░███ ░███"
 	@sleep 0.1
-	@echo " ░███  ░     ░███      ███░░███ ░███  ███  ░███ ███           ░███ ░███ ░███"
+	@echo -e " ░███  ░     ░███      ███░░███ ░███  ███  ░███ ███           ░███ ░███ ░███"
 	@sleep 0.1
-	@echo " █████       █████    ░░████████░░██████   ░░█████            ░░██████  █████"
+	@echo -e " █████       █████    ░░████████░░██████   ░░█████            ░░██████  █████"
 	@sleep 0.1
-	@echo "░░░░░       ░░░░░      ░░░░░░░░  ░░░░░░     ░░░░░              ░░░░░░  ░░░░░ $(DEF_COLOR)"
+	@echo -e "░░░░░       ░░░░░      ░░░░░░░░  ░░░░░░     ░░░░░              ░░░░░░  ░░░░░ $(DEF_COLOR)"
 	@$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
-	@echo "\n\n$(GREEN) Fract-ol is ready to be used !$(DEF_COLOR)"
+	@echo -e "\n\n$(GREEN) Fract-ol is ready to be used !$(DEF_COLOR)"
 
 
 # Variables pour la barre
@@ -108,27 +108,27 @@ end_timer:
 	@$(eval END_TIME := $(shell date +%s))
 	@$(eval DURATION := $(shell echo $$(($(END_TIME) - $(START_TIME)))))
 	@$(eval ERRORS := $(shell if [ -f $(ERR_LOG) ]; then grep -c "error:" $(ERR_LOG); else echo 0; fi))
-	@echo "\n--------------------------------------------------"
+	@echo -e "\n--------------------------------------------------"
 	@if [ $(ERRORS) -eq 0 ]; then \
 		echo "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)"; \
 	else \
 		echo "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)"; \
 	fi
-	@echo "Temps écoulé : $(DURATION) secondes"
-	@echo "  Nombre d'erreurs : $(ERRORS)"
-	@echo "--------------------------------------------------"
+	@echo -e "Temps écoulé : $(DURATION) secondes"
+	@echo -e "  Nombre d'erreurs : $(ERRORS)"
+	@echo -e "--------------------------------------------------"
 	@rm -f $(ERR_LOG)
 
 clean:
 	$(RM) $(OBJS_DIR)
 	@make clean -C $(MLX_DIR)
 	@make clean -C $(LIBFT_DIR)
-	@echo "$(PURPLE) Objects cleaned!$(DEF_COLOR)"
+	@echo -e "$(PURPLE) Objects cleaned!$(DEF_COLOR)"
 
 fclean: clean
 		$(RM) $(NAME)
 		@make fclean -C $(LIBFT_DIR)
-		@echo "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)"
+		@echo -e "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)"
 
 re: fclean all
 
