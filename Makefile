@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+         #
+#    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/03/26 17:19:55 by fiaudfiz         ###   ########.fr        #
+#    Updated: 2026/08/26 13:29:07 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,30 +23,30 @@ RESET   = \033[0m
 ERR_LOG = .errors.log
 
 CC = cc
-CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I includes -I libs/libft/includes -std=c11
+CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I include -I libs/libft/includes -std=c11
 LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
 DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
 
 #Dossiers
-SRCS_DIR = srcs/
-OBJS_DIR = objs/
-HEADER_DIR = includes/
+SRC_DIR = src/
+OBJ_DIR = obj/
+HEADER_DIR = include/
 MLX_DIR = libs/mlx-linux/
 MLX_LIB = $(MLX_DIR)libmlx_Linux.a
 
 LIBFT_DIR = libs/libft/
 LIBFT_LIB = $(LIBFT_DIR)libft.a
 
-SRCS_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
+SRC_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
 				init.c render_fractal.c key_handler.c \
 				mouse_handler.c compute_simd_fractal.c \
 				parser.c
 
 
 
-ALL_SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FRACTOL))
+ALL_SRC = $(addprefix $(SRC_DIR), $(SRC_FRACTOL))
 
-OBJS = $(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(ALL_SRCS))
+OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))
 
 HEADER = $(HEADER_DIR)fractol.h
 
@@ -60,8 +60,8 @@ header:
 start_timer:
 	$(eval START_TIME := $(shell date +%s))
 
-debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJS) end_timer
-	@$(CC) $(OBJS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
+debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJ) end_timer
+	@$(CC) $(OBJ) $(LDFLAGS) $(DFLAGS) -o $(NAME)
 	@printf "$(GREEN) Fract-ol debug ready !$(DEF_COLOR)\n"
 
 $(MLX_LIB):
@@ -70,7 +70,7 @@ $(MLX_LIB):
 $(LIBFT_LIB):
 	@make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS) $(MLX_LIB) $(LIBFT_LIB)
+$(NAME): $(OBJ) $(MLX_LIB) $(LIBFT_LIB)
 	@printf "\n\n$(CYAN) ███████████                               █████                        ████\n"
 	@sleep 0.1
 	@printf "░░███░░░░░░█                              ░░███                        ░░███\n"
@@ -86,15 +86,15 @@ $(NAME): $(OBJS) $(MLX_LIB) $(LIBFT_LIB)
 	@printf " █████       █████    ░░████████░░██████   ░░█████            ░░██████  █████\n"
 	@sleep 0.1
 	@printf "░░░░░       ░░░░░      ░░░░░░░░  ░░░░░░     ░░░░░              ░░░░░░  ░░░░░ $(DEF_COLOR)\n"
-	@$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
 	@printf "\n\n$(GREEN) Fract-ol is ready to be used !$(DEF_COLOR)\n"
 
 
 # Variables pour la barre
-TOTAL_FILES := $(words $(ALL_SRCS))
+TOTAL_FILES := $(words $(ALL_SRC))
 CURRENT_FILE := 0
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	@mkdir -p $(dir $@)
 	@$(eval CURRENT_FILE=$(shell printf $$(($(CURRENT_FILE) + 1))))
 	@$(eval PERCENT=$(shell printf $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES)))))
@@ -120,7 +120,7 @@ end_timer:
 	@rm -f $(ERR_LOG)
 
 clean:
-	$(RM) $(OBJS_DIR)
+	$(RM) $(OBJ_DIR)
 	@make clean -C $(MLX_DIR)
 	@make clean -C $(LIBFT_DIR)
 	@printf "$(PURPLE) Objects cleaned!$(DEF_COLOR)\n"
