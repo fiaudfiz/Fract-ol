@@ -6,12 +6,12 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 11:11:09 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/03 10:46:13 by miouali          ###   ########.fr       */
+/*   Updated: 2026/08/26 13:41:55 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include "../libs/libft/includes/libft.h"
+#include "ft_printf.h"
 
 void	prog_usage(void)
 {

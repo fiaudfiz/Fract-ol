@@ -6,7 +6,7 @@
 #    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/08/26 13:29:07 by miouali          ###   ########.fr        #
+#    Updated: 2026/08/26 13:47:37 by miouali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RESET   = \033[0m
 ERR_LOG = .errors.log
 
 CC = cc
-CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I include -I libs/libft/includes -std=c11
+CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I include -I libs/libft/include -std=c11
 LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
 DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
 
@@ -121,6 +121,7 @@ end_timer:
 
 clean:
 	$(RM) $(OBJ_DIR)
+	$(RM) .temp_err
 	@make clean -C $(MLX_DIR)
 	@make clean -C $(LIBFT_DIR)
 	@printf "$(PURPLE) Objects cleaned!$(DEF_COLOR)\n"

@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 15:00:28 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/15 15:00:30 by miouali          ###   ########.fr       */
+/*   Updated: 2026/08/26 13:46:47 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include "../libs/libft/includes/libft.h"
+#include "ft_io.h"
+#include "ft_stdlib.h"
+#include "ft_strings.h"
 
 static int	is_valid_double(char *str)
 {
