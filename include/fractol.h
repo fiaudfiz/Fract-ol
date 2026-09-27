@@ -6,7 +6,7 @@
 /*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/03/03 10:57:12 by miouali          ###   ########.fr       */
+/*   Updated: 2026/09/27 16:17:02 by miouali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include <math.h>
 # include "../libs/mlx-linux/mlx.h"
 # include <immintrin.h>
+#include <threads.h>
 
 typedef struct s_fractol
 {
