@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/30 10:56:12 by fiaudfiz          #+#    #+#             */
-/*   Updated: 2026/09/30 16:41:35 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 17:57:08 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	render_frame(t_render *render, t_pool *pool)
 	pthread_mutex_unlock(&render->mutex_render);
 }
 
-/*static void	iterate_pixel(t_fractol *f, double cr, double ci, int *iter)
+static void	iterate_pixel(t_fractol *f, double cr, double ci, int *iter)
 {
 	double	zr;
 	double	zi;
@@ -105,9 +105,9 @@ void	render_frame(t_render *render, t_pool *pool)
 		zr = tmp_re;
 		(*iter)++;
 	}
-}*/
+}
 
-static void	iterate_pixel(t_fractol *f, double cr, double ci, int *iter)
+/*static void	iterate_pixel(t_fractol *f, double cr, double ci, int *iter)
 {
 	double	zr;
 	double	zi;
@@ -155,7 +155,7 @@ static void	iterate_pixel(t_fractol *f, double cr, double ci, int *iter)
 			zr = tmp;
 			(*iter)++;
 		}
-}
+}*/
 
 void	render_tile(void *arg)
 {

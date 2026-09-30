@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 16:39:47 by miouali           #+#    #+#             */
-/*   Updated: 2026/09/30 16:55:05 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 17:53:05 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av)
 	if (!init_fractol(&f))
 		return (1);
 	init(&f);
-	printf ("%d", get_nb_threads());
 	pool = pool_create(get_nb_threads(), NB_TILES*2);
 	if (!pool)
 		return (1);
@@ -31,7 +30,7 @@ int	main(int ac, char **av)
 	f.render = &render;
 	f.pool = pool;
 	init_palette(&f);
-	//benchmark_pool(&f, 5000);
+	benchmark_pool(&f, 1000);
 	render_frame(&render, pool);
 	mlx_put_image_to_window(f.mlx, f.win, f.img, 0, 0);
 	mlx_hook(f.win, 2, 1L << 0, key_handler, &f);

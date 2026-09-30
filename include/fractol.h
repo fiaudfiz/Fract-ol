@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/09/30 16:47:20 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 17:47:00 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # define TILES_X ((WIN_WIDTH + TILE_SIZE - 1) / TILE_SIZE)
 # define TILES_Y ((WIN_HEIGHT + TILE_SIZE - 1) / TILE_SIZE)
 # define NB_TILES (TILES_X * TILES_Y)
-# define NB_THREADS 12
 
 # include <stddef.h>
 # include <sys/types.h>
