@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 16:39:47 by miouali           #+#    #+#             */
-/*   Updated: 2026/09/30 17:53:05 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 18:17:25 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	f.render = &render;
 	f.pool = pool;
 	init_palette(&f);
-	benchmark_pool(&f, 1000);
+	benchmark_pool(&f, 100);
 	render_frame(&render, pool);
 	mlx_put_image_to_window(f.mlx, f.win, f.img, 0, 0);
 	mlx_hook(f.win, 2, 1L << 0, key_handler, &f);
