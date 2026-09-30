@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: miouali <miouali@student.42.fr>            +#+  +:+       +#+         #
+#    By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/08/26 13:47:37 by miouali          ###   ########.fr        #
+#    Updated: 2026/09/30 15:31:17 by fiaudfiz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ERR_LOG = .errors.log
 
 CC = cc
 CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I include -I libs/libft/include -std=c11
-LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11
+LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11 -lm
 DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
 
 #Dossiers
@@ -40,7 +40,7 @@ LIBFT_LIB = $(LIBFT_DIR)libft.a
 SRC_FRACTOL = main.c prog_usage.c calculate_iteration.c color.c \
 				init.c render_fractal.c key_handler.c \
 				mouse_handler.c compute_simd_fractal.c \
-				parser.c
+				parser.c calculate_tile.c pool.c benchmark.c
 
 
 
@@ -48,7 +48,8 @@ ALL_SRC = $(addprefix $(SRC_DIR), $(SRC_FRACTOL))
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC))
 
-HEADER = $(HEADER_DIR)fractol.h
+HEADER = $(HEADER_DIR)fractol.h \
+		$(HEADER_DIR)pool.h
 
 RM = rm -rf
 

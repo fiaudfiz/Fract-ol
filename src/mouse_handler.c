@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:02 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/26 16:34:09 by miouali          ###   ########.fr       */
+/*   Updated: 2026/09/30 15:32:21 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	mouse_release(int button, int x, int y, t_fractol *f)
 	return (0);
 }
 
-static void	handle_zoom(int button, int x, int y, t_fractol *f)
+void	handle_zoom(int button, int x, int y, t_fractol *f)
 {
 	double		mouse_re;
 	double		mouse_im;
@@ -50,7 +50,9 @@ static void	handle_zoom(int button, int x, int y, t_fractol *f)
 	else if (button == 5)
 		zoom_factor = 1.1;
 	apply_zoom(f, mouse_re, mouse_im, zoom_factor);
-	render_fractal_simd(f);
+	f->real_factor = (f->max_real_window - f->min_real_window) / WIN_WIDTH;
+	f->imaginary_factor = (f->min_imaginary_window - f->max_imaginary_window) / WIN_HEIGHT;
+	render_frame(f->render, f->pool);
 	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 }
 
@@ -83,6 +85,7 @@ int	motion_handler(int x, int y, t_fractol *f)
 	f->min_imaginary_window -= dy;
 	f->last_x = x;
 	f->last_y = y;
-	render_fractal_simd(f);
+	render_frame(f->render, f->pool);
+	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 	return (0);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   key_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:21:54 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/26 16:32:30 by miouali          ###   ########.fr       */
+/*   Updated: 2026/09/30 15:10:11 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include "pool.h"
 
 int	close_handler(t_fractol *f)
 {
@@ -18,6 +19,7 @@ int	close_handler(t_fractol *f)
 	mlx_destroy_window(f-> mlx, f->win);
 	mlx_destroy_display(f-> mlx);
 	free (f-> mlx);
+	pool_destroy(f->pool);
 	exit(0);
 	return (0);
 }
@@ -55,17 +57,20 @@ int	key_handler(int key, t_fractol *f)
 		move_fractal(key, f);
 	else if (key == 114)
 	{
-		f->min_real_window = f->init_min_re;
-		f->max_real_window = f->init_max_re;
-		f->min_imaginary_window = f->init_min_im;
-		f->max_imaginary_window = f-> init_max_im;
+    	f->min_real_window = f->init_min_re;
+    	f->max_real_window = f->init_max_re;
+    	f->min_imaginary_window = f->init_min_im;
+    	f->max_imaginary_window = f->init_max_im;
+    	f->real_factor = (f->max_real_window - f->min_real_window) / WIN_WIDTH;
+    	f->imaginary_factor = (f->min_imaginary_window - f->max_imaginary_window) / WIN_HEIGHT;
 	}
 	else if (key == 99)
 	{
 		f->color_offset += 50;
 		init_palette(f);
 	}
-	render_fractal_simd(f);
+	render_frame(f->render, f->pool);
+	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 	return (0);
 }
 

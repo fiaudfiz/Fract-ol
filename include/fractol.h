@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/09/27 16:17:02 by miouali          ###   ########.fr       */
+/*   Updated: 2026/09/30 15:40:16 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #  define WIN_WIDTH 800
 # endif
 
+# ifndef TILE_SIZE
+#  define TILE_SIZE 32
+# endif
+
 # ifndef WIN_HEIGHT
 #  define WIN_HEIGHT 800
 # endif
@@ -24,6 +28,12 @@
 # ifndef MAX_ITER
 #  define MAX_ITER 300
 # endif
+
+# define TILE_SIZE 32
+# define TILES_X ((800 + TILE_SIZE - 1) / TILE_SIZE)
+# define TILES_Y ((800 + TILE_SIZE - 1) / TILE_SIZE)
+# define NB_TILES (TILES_X * TILES_Y)
+# define NB_THREADS 20
 
 # include <stddef.h>
 # include <sys/types.h>
@@ -38,7 +48,10 @@
 # include <math.h>
 # include "../libs/mlx-linux/mlx.h"
 # include <immintrin.h>
-#include <threads.h>
+# include <pthread.h>
+
+typedef struct s_render	t_render;
+typedef struct s_pool		t_pool;
 
 typedef struct s_fractol
 {
@@ -85,7 +98,8 @@ typedef struct s_fractol
 	int		palette[MAX_ITER];
 	int		dx;
 	int		dy;
-
+	t_render *render;
+	t_pool *pool;
 }			t_fractol;
 
 typedef struct s_simd
@@ -96,6 +110,26 @@ typedef struct s_simd
 	__m256d		v_c_im;
 	__m256d		v_iter;
 }		t_simd;
+
+typedef struct s_tile
+{
+	int x0;
+	int	y0;
+	int	xf;
+	int	yf;
+	int	index;
+	t_render *render;
+}t_tile;
+
+typedef struct s_render
+{
+	t_tile tiles[NB_TILES];
+	t_fractol *fractol;
+	int pending;
+	pthread_mutex_t mutex_render;
+	pthread_cond_t	cond_pending;
+}t_render;
+
 
 //parsing
 void	parse_args(int argc, char **argv, t_fractol *f);
@@ -116,6 +150,7 @@ int		mouse_release(int button, int x, int y, t_fractol *f);
 //color
 void	init_palette(t_fractol *f);
 void	put_color(t_fractol *f, int *pixel_ptr);
+void	put_color_thread(t_fractol *f, int *pixel_ptr, int iteration);
 
 //calculate fractal
 void	calculate_iteration_simd(t_fractol *f, __m256d v_c_re, __m256d v_c_im,
@@ -127,5 +162,13 @@ void	compute_mandelbrot(t_simd *s);
 void	compute_celtic(t_simd *s);
 void	compute_tricorn(t_simd *s);
 void	compute_burning_ship(t_simd *s);
+
+void	render_init(t_render *render, t_fractol *f);
+void	render_frame(t_render *render, t_pool *pool);
+void	render_tile(void *arg);
+void	benchmark_pool(t_fractol *f, int nb_frames);
+void	handle_zoom(int button, int x, int y, t_fractol *f);
+void	apply_zoom(t_fractol *f, double mouse_re,
+		double mouse_im, double zoom_factor);
 
 #endif
