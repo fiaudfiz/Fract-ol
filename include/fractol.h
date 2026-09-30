@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:00:41 by miouali           #+#    #+#             */
-/*   Updated: 2026/09/30 15:40:16 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:47:20 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FRACTOL_H
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 800
+#  define WIN_WIDTH 1000
 # endif
 
 # ifndef TILE_SIZE
@@ -22,7 +22,7 @@
 # endif
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 800
+#  define WIN_HEIGHT 1000
 # endif
 
 # ifndef MAX_ITER
@@ -30,10 +30,10 @@
 # endif
 
 # define TILE_SIZE 32
-# define TILES_X ((800 + TILE_SIZE - 1) / TILE_SIZE)
-# define TILES_Y ((800 + TILE_SIZE - 1) / TILE_SIZE)
+# define TILES_X ((WIN_WIDTH + TILE_SIZE - 1) / TILE_SIZE)
+# define TILES_Y ((WIN_HEIGHT + TILE_SIZE - 1) / TILE_SIZE)
 # define NB_TILES (TILES_X * TILES_Y)
-# define NB_THREADS 20
+# define NB_THREADS 12
 
 # include <stddef.h>
 # include <sys/types.h>

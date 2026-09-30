@@ -6,7 +6,7 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 08:28:41 by fiaudfiz          #+#    #+#             */
-/*   Updated: 2026/09/30 11:05:55 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:54:36 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ typedef struct s_pool
 t_pool *pool_create(int nb_threads, int capcacity);
 int pool_submit(t_pool *pool, t_task_fn fn, void *arg);
 void    pool_destroy(t_pool *pool);
+int	get_nb_threads(void);
 
 #endif

@@ -6,13 +6,15 @@
 /*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/29 09:16:47 by fiaudfiz          #+#    #+#             */
-/*   Updated: 2026/09/30 14:37:47 by fiaudfiz         ###   ########.fr       */
+/*   Updated: 2026/09/30 16:54:03 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pool.h"
 #include "ft_stdlib.h"
 #include <stdbool.h>
+#define _DEFAULT_SOURCE
+#include <unistd.h>
 
 static  void    *worker_loop(void *arg)
 {
@@ -110,4 +112,14 @@ void	pool_destroy(t_pool *pool)
 	free(pool->file);
 	free(pool->tab_of_threads);
 	free(pool);
+}
+
+int	get_nb_threads(void)
+{
+	long	n;
+
+	n = sysconf(_SC_NPROCESSORS_ONLN);
+	if (n < 1)
+		return (1);
+	return ((int)n);
 }
