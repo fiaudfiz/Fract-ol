@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_handler.c                                    :+:      :+:    :+:   */
+/*   mouse_handler_simd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miouali <miouali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 11:26:02 by miouali           #+#    #+#             */
-/*   Updated: 2026/02/26 16:34:09 by miouali          ###   ########.fr       */
+/*   Updated: 2026/10/02 15:41:09 by fiaudfiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	mouse_release(int button, int x, int y, t_fractol *f)
 	return (0);
 }
 
-static void	handle_zoom(int button, int x, int y, t_fractol *f)
+void	handle_zoom(int button, int x, int y, t_fractol *f)
 {
 	double		mouse_re;
 	double		mouse_im;
