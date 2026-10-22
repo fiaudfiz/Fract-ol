@@ -43,8 +43,8 @@ This project relies on two internal libraries located in the libs/ folder.
 ├── libs
 │   ├── libft       # Custom C library (submodule)
 │   └── minilibx    # 42 Graphical library (included)
-├── srcs            # Project source code
-├── includes        # Header files
+├── src             # Project source code
+├── include         # Header files
 └── Makefile
 ```
 
@@ -55,21 +55,64 @@ To clone the project along with its dependencies, use the --recursive flag to au
 ```Bash
 git clone --recursive git@github.com:fiaudfiz/fract-ol
 ```
-##  Usage
 
-###    Compilation :
+## Usage
+
+### Compilation
+
+Two versions are available:
+
 ```bash
-make
+make simd        # SIMD (AVX2) version  -> ./fractol_simd
+make threads     # multithreaded version -> ./fractol_threads
 ```
-###    Launch
+
+Running `make` alone only prints the available targets.
+
+### Launch
+
 Run the program with the name of the desired fractal:
 
-```Bash
-    ./fractol mandelbrot
-    ./fractol julia
-    ./fractol burningship
-    ./fractol celtic
-    ./fractol tricorn
+```bash
+./fractol_simd mandelbrot
+./fractol_simd julia
+./fractol_simd burningship
+./fractol_simd celtic
+./fractol_simd tricorn
+```
+
+The threaded version takes the same arguments:
+
+```bash
+./fractol_threads mandelbrot
+```
+
+### Other targets
+
+| Command | Description |
+|---|---|
+| `make debug_simd` / `make debug_threads` | `-O0 -g3` with ASan + UBSan |
+| `make prof_simd` / `make prof_threads` | `-pg` for gprof (also usable with perf) |
+| `make perf_simd` / `make perf_threads` | Symbols + frame pointers for `perf`, without `-pg` |
+| `make re_simd` / `make re_threads` | `fclean` + rebuild |
+| `make clean` / `make fclean` | Remove objects / binaries |
+
+Each variant has its own object directory (`obj/<version>-<variant>/`) and its own binary (`fractol_simd_debug`, `fractol_threads_perf`, ...), so builds never mix.
+
+### Profiling
+
+```bash
+make perf_threads
+perf record -F 999 -e cycles:u --call-graph fp ./fractol_threads_perf mandelbrot
+perf report --no-children
+```
+
+For gprof (single-threaded SIMD version only):
+
+```bash
+make prof_simd
+./fractol_simd_prof mandelbrot      # quit normally to write gmon.out
+gprof ./fractol_simd_prof gmon.out | less
 ```
 
 ### Controls & Navigation
