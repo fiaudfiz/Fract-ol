@@ -6,166 +6,116 @@
 #    By: fiaudfiz <fiaudfiz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 12:56:33 by miouali           #+#    #+#              #
-#    Updated: 2026/10/02 15:45:33 by fiaudfiz         ###   ########.fr        #
+#    Updated: 2026/10/22 12:57:36 by fiaudfiz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME_SIMD = fractol_simd
-NAME_THREADS = fractol_threads
+NAME_simd     = fractol_simd
+NAME_threads  = fractol_threads
 
-DEF_COLOR = \033[0;39m
-CYAN    = \033[0;96m
-GREEN = \033[0;92m
-PURPLE  = \033[0;95m
-YELLOW  = \033[0;93m
-RED     = \033[0;91m
-RESET   = \033[0m
+CC      = cc
+INC     = -I include -I libs/libft/include
+WFLAGS  = -Wall -Wextra -Werror -std=c11 -pthread
+LIBS    = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -lXext -lX11 -lm -pthread
 
-ERR_LOG = .errors.log
-
-CC = cc
-CFLAGS =  -O3 -march=native -Wall -Wextra -Werror -I include -I libs/libft/include -std=c11
-LDFLAGS = -L$(MLX_DIR) -lmlx_Linux -L$(LIBFT_DIR) -lft -L/usr/lib -lXext -lX11 -lm
-DFLAGS = -fsanitize=address -fsanitize=undefined -g -Wshadow -Wunused-function
-
-#Dossiers
-SRC_DIR = src/
-OBJ_DIR = obj/
-HEADER_DIR = include/
-MLX_DIR = libs/mlx-linux/
-MLX_LIB = $(MLX_DIR)libmlx_Linux.a
-
+MLX_DIR   = libs/mlx-linux/
 LIBFT_DIR = libs/libft/
+MLX_LIB   = $(MLX_DIR)libmlx_Linux.a
 LIBFT_LIB = $(LIBFT_DIR)libft.a
 
-SRC_FRACTOL_SIMD = main_simd.c prog_usage.c calculate_iteration.c color.c \
-				init.c render_fractal.c key_handler_simd.c \
-				mouse_handler_simd.c compute_simd_fractal.c \
-				parser.c
+# --- Axes de config (utilisés par la cible interne "build") ---
+VERSION ?= simd
+VARIANT ?= release
 
-SRC_FRACTOL_THREADS = main_threads.c prog_usage.c color.c \
-					calculate_tile.c init.c key_handler_threads.c \
-					mouse_handler_threads.c parser.c pool.c \
-					benchmark.c
-					
-ALL_SRC_SIMD = $(addprefix $(SRC_DIR), $(SRC_FRACTOL_SIMD))
-ALL_SRC_THREADS = $(addprefix $(SRC_DIR), $(SRC_FRACTOL_THREADS))
+OPT_release = -O3 -march=native
+OPT_debug   = -O0 -g3 -Wshadow -fsanitize=address,undefined
+OPT_prof    = -O2 -march=native -g -fno-omit-frame-pointer -pg
+OPT_perf    = -O2 -march=native -g -fno-omit-frame-pointer
 
-OBJ_SIMD = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC_SIMD))
-OBJ_THREADS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(ALL_SRC_THREADS))
+SUFFIX_release =
+SUFFIX_debug   = _debug
+SUFFIX_prof    = _prof
+SUFFIX_perf    = _perf
 
-HEADER = $(HEADER_DIR)fractol.h \
-		$(HEADER_DIR)pool.h
+OPT     = $(OPT_$(VARIANT))
+BIN     = $(NAME_$(VERSION))$(SUFFIX_$(VARIANT))
+OBJ_DIR = obj/$(VERSION)-$(VARIANT)/
+SRC_DIR = src/
 
-RM = rm -rf
+SRC_simd    = main_simd.c prog_usage.c calculate_iteration.c color.c init.c \
+              render_fractal.c key_handler_simd.c mouse_handler_simd.c \
+              compute_simd_fractal.c parser.c
 
-all: header start_timer $(NAME_SIMD) end_timer
+SRC_threads = main_threads.c prog_usage.c color.c calculate_tile.c init.c \
+              key_handler_threads.c mouse_handler_threads.c parser.c pool.c \
+              benchmark.c
 
-header:
-	@printf "\n$(YELLOW)Démarrage de la compilation de Fract-ol...$(RESET)\n"
+OBJS = $(addprefix $(OBJ_DIR), $(SRC_$(VERSION):.c=.o))
+DEPS = $(OBJS:.o=.d)
 
-start_timer:
-	$(eval START_TIME := $(shell date +%s))
+ALL_BINS = $(foreach v,simd threads,\
+           $(foreach s,$(SUFFIX_release) $(SUFFIX_debug) $(SUFFIX_prof) $(SUFFIX_perf),\
+           $(NAME_$(v))$(s)))
 
-debug: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJ_THREADS) end_timer
-	@$(CC) $(OBJ_THREADS) $(LDFLAGS) $(DFLAGS) -o $(NAME)
-	@printf "$(GREEN) Fract-ol debug ready !$(DEF_COLOR)\n"
+# --- Cibles ambiguës : elles n'affichent que l'aide ---
+all debug prof perf re: help
 
-threads: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJ_THREADS) end_timer
-	@$(CC) $(OBJ_THREADS) $(LDFLAGS) $(DFLAGS) -o $(NAME_THREADS)
-	@printf "$(GREEN) Fract-ol threads ready !$(DEF_COLOR)\n"
+help:
+	@printf "Usage :\n"
+	@printf "  make simd | threads              build release\n"
+	@printf "  make debug_simd | debug_threads  sanitizers (ASan + UBSan)\n"
+	@printf "  make prof_simd | prof_threads    gprof (-pg) + perf\n"
+	@printf "  make perf_simd | perf_threads    perf seul (sans -pg)\n"
+	@printf "  make re_simd | re_threads        fclean + rebuild release\n"
+	@printf "  make clean | fclean\n"
 
-simd: $(MLX_LIB) $(LIBFT_LIB) header start_timer $(OBJ_SIMD) end_timer
-	@$(CC) $(OBJ_SIMD) $(LDFLAGS) $(DFLAGS) -o $(NAME_SIMD)
-	@printf "$(GREEN) Fract-ol threads ready !$(DEF_COLOR)\n"
+# --- Points d'entrée explicites ---
+simd threads:
+	@$(MAKE) --no-print-directory build VERSION=$@
+
+DEBUG_T = debug_simd debug_threads
+PROF_T  = prof_simd prof_threads
+PERF_T  = perf_simd perf_threads
+
+$(DEBUG_T): debug_%:
+	@$(MAKE) --no-print-directory build VERSION=$* VARIANT=debug
+
+$(PROF_T): prof_%:
+	@$(MAKE) --no-print-directory build VERSION=$* VARIANT=prof
+
+$(PERF_T): perf_%:
+	@$(MAKE) --no-print-directory build VERSION=$* VARIANT=perf
+
+re_simd: fclean simd
+re_threads: fclean threads
+
+# --- Build réel (interne) ---
+build: $(MLX_LIB) $(LIBFT_LIB) $(BIN)
+
+$(BIN): $(OBJS)
+	$(CC) $(OBJS) $(OPT) $(LIBS) -o $@
+	@printf "✅ $@ ready\n"
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(WFLAGS) $(OPT) $(INC) -MMD -MP -c $< -o $@
 
 $(MLX_LIB):
-	@make -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR)
 
 $(LIBFT_LIB):
-	@make -C $(LIBFT_DIR)
-
-$(NAME_SIMD): $(OBJ_SIMD) $(MLX_LIB) $(LIBFT_LIB)
-	@printf "\n\n$(CYAN) ███████████                               █████                        ████\n"
-	@sleep 0.1
-	@printf "░░███░░░░░░█                              ░░███                        ░░███\n"
-	@sleep 0.1
-	@printf " ░███   █ ░  ████████   ██████    ██████  ███████               ██████  ░███\n"
-	@sleep 0.1
-	@printf " ░███████   ░░███░░███ ░░░░░███  ███░░███░░░███░    ██████████ ███░░███ ░███\n"
-	@sleep 0.1
-	@printf " ░███░░░█    ░███ ░░░   ███████ ░███ ░░░   ░███    ░░░░░░░░░░ ░███ ░███ ░███\n"
-	@sleep 0.1
-	@printf " ░███  ░     ░███      ███░░███ ░███  ███  ░███ ███           ░███ ░███ ░███\n"
-	@sleep 0.1
-	@printf " █████       █████    ░░████████░░██████   ░░█████            ░░██████  █████\n"
-	@sleep 0.1
-	@printf "░░░░░       ░░░░░      ░░░░░░░░  ░░░░░░     ░░░░░              ░░░░░░  ░░░░░ $(DEF_COLOR)\n"
-	@$(CC) $(OBJ_SIMD) $(LDFLAGS) -o $(NAME_SIMD)
-	@printf "\n\n$(GREEN) Fract-ol is ready to be used !$(DEF_COLOR)\n"
-
-
-$(NAME_THREADS): $(OBJ_THREADS) $(MLX_LIB) $(LIBFT_LIB)
-	@printf "\n\n$(CYAN) ███████████                               █████                        ████\n"
-	@sleep 0.1
-	@printf "░░███░░░░░░█                              ░░███                        ░░███\n"
-	@sleep 0.1
-	@printf " ░███   █ ░  ████████   ██████    ██████  ███████               ██████  ░███\n"
-	@sleep 0.1
-	@printf " ░███████   ░░███░░███ ░░░░░███  ███░░███░░░███░    ██████████ ███░░███ ░███\n"
-	@sleep 0.1
-	@printf " ░███░░░█    ░███ ░░░   ███████ ░███ ░░░   ░███    ░░░░░░░░░░ ░███ ░███ ░███\n"
-	@sleep 0.1
-	@printf " ░███  ░     ░███      ███░░███ ░███  ███  ░███ ███           ░███ ░███ ░███\n"
-	@sleep 0.1
-	@printf " █████       █████    ░░████████░░██████   ░░█████            ░░██████  █████\n"
-	@sleep 0.1
-	@printf "░░░░░       ░░░░░      ░░░░░░░░  ░░░░░░     ░░░░░              ░░░░░░  ░░░░░ $(DEF_COLOR)\n"
-	@$(CC) $(OBJ_THREADS) $(LDFLAGS) -o $(NAME_THREADS)
-	@printf "\n\n$(GREEN) Fract-ol is ready to be used !$(DEF_COLOR)\n"
-
-# Variables pour la barre
-TOTAL_FILES_SIMD := $(words $(ALL_SRC_SIMD))
-CURRENT_FILE := 0
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
-	@mkdir -p $(dir $@)
-	@$(eval CURRENT_FILE=$(shell printf $$(($(CURRENT_FILE) + 1))))
-	@$(eval PERCENT=$(shell printf $$(($(CURRENT_FILE) * 100 / $(TOTAL_FILES_SIMD)))))
-	@printf "\r$(CYAN)🛠️  Compiling Fract-ol... [%-20s] %d%%" \
-		"$(shell printf '#%.0s' $$(seq 1 $$(($(PERCENT) / 5))))" $(PERCENT)
-	@$(CC) $(CFLAGS) -c $< -o $@ 2> .temp_err || \
-		(printf "\n$(PURPLE)❌ Erreur dans $< :$(RESET)\n" && cat .temp_err >> $(ERR_LOG) && cat .temp_err && rm -f .temp_err)
-
-
-end_timer:
-	@$(eval END_TIME := $(shell date +%s))
-	@$(eval DURATION := $(shell printf $$(($(END_TIME) - $(START_TIME)))))
-	@$(eval ERRORS := $(shell if [ -f $(ERR_LOG) ]; then grep -c "error:" $(ERR_LOG); else printf 0; fi))
-	@printf "\n%s\n" "--------------------------------------------------"
-	@if [ $(ERRORS) -eq 0 ]; then \
-		printf "$(GREEN)✅ COMPILATION TERMINÉE !$(RESET)\n"; \
-	else \
-		printf "$(RED)❌ COMPILATION TERMINÉE AVEC DES ERREURS$(RESET)\n"; \
-	fi
-	@printf "Temps écoulé : $(DURATION) secondes\n"
-	@printf "  Nombre d'erreurs : $(ERRORS)\n"
-	@printf "%s\n" "--------------------------------------------------"
-	@rm -f $(ERR_LOG)
+	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	$(RM) $(OBJ_DIR)
-	$(RM) .temp_err
-	@make clean -C $(MLX_DIR)
-	@make clean -C $(LIBFT_DIR)
-	@printf "$(PURPLE) Objects cleaned!$(DEF_COLOR)\n"
+	rm -rf obj gmon.out perf.data perf.data.old
+	@$(MAKE) -C $(MLX_DIR) clean
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-		$(RM) $(NAME_SIMD)
-		$(RM) $(NAME_THREADS)
-		@make fclean -C $(LIBFT_DIR)
-		@printf "$(PURPLE) $(NAME) deleted!$(DEF_COLOR)\n"
+	rm -f $(ALL_BINS)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
-re: fclean all
+-include $(DEPS)
 
-.PHONY : all clean fclean re debug
+.PHONY: all help simd threads $(DEBUG_T) $(PROF_T) $(PERF_T) \
+        re re_simd re_threads build debug prof perf clean fclean
